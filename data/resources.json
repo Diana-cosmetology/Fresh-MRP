@@ -1,0 +1,52 @@
+[
+  {
+    "resourceId": "hy",
+    "title": "Hyaluronate Sodium",
+    "unit": "gr",
+    "suppliers": [
+      {
+        "supplierId": "conti",
+        "name": "ContiPro",
+        "originCountry": "Чехия",
+        "minBatch": 500,
+        "qntStep": 500,
+        "duration": 50,
+        "price": {
+          "type": "leveled",
+          "priceLevels": [
+            {
+              "levelId": "1",
+              "fromQnt": "0",
+              "price": 10.80
+            },
+            {
+              "levelId": "2",
+              "fromQnt": "1000",
+              "price": 10.00
+            }
+          ]
+        }
+      }
+    ],
+    "startQnt": {
+      "date": "01-01-2018",
+      "qnt": 260,
+      "price": 10.80
+    },
+    "inTransfer": [
+      {
+        "dateArrival": "15-02-2018",
+        "qnt": 500,
+        "price": 10.80
+      }
+    ]
+  },
+  {
+    "resourceId": "am3",
+    "title": "Ампулы, Shott"
+  },
+  {
+    "resourceId": "box1",
+    "name": "Коробка Biomatrix ампулы"
+  }
+]

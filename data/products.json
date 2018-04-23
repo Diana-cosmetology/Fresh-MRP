@@ -1,0 +1,18 @@
+[
+  {
+    "productId": "bmx-am",
+    "name": "Biomatrix",
+    "unit": "Ампула",
+    "startQnt": {
+      "date": "01-01-2018",
+      "qnt": 3500
+    },
+    "inProduction": [
+      {
+        "readyDate": "25-01-2018",
+        "qnt": 8000,
+        "processId": "bmx-vk"
+      }
+    ]
+  }
+]
