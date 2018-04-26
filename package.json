@@ -2,6 +2,8 @@
   "name": "fresh-mrp",
   "version": "0.0.1",
   "dependencies": {
-    "lodash": "^4.17.5"
+    "lodash": "^4.17.5",
+    "moment": "^2.22.1",
+    "moment-business-days": "^1.0.6"
   }
 }

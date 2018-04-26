@@ -21,6 +21,7 @@ res reg:
 */
 const util = require('util')
 const _ = require('lodash')
+const moment = require('moment-business-days')
 
 const process = require("./data/process")
 const products = require("./data/products")
@@ -40,7 +41,7 @@ function processRemains(registry) {
       remains = []
       remains.push({
         "opId": item.opId,
-        "date": item.date,
+        "date": moment(item.date, 'DD-MM-YYYY'),
         "qnt": item.qnt,
         "price": item.price,
         "value": item.value
@@ -52,7 +53,7 @@ function processRemains(registry) {
       value += item.value
       remains.push({
         "opId": item.opId,
-        "date": item.date,
+        "date": moment(item.date, 'DD-MM-YYYY'),
         "qnt": item.qnt,
         "price": item.price,
         "value": item.value
@@ -109,7 +110,7 @@ for (let resource of resources) {
     res.registry.push({
       "opId": opId++,
       "opType": "initial",
-      "date": resource.startQnt.date,
+      "date": moment(resource.startQnt.date, 'DD-MM-YYYY'),
       "qnt": resource.startQnt.qnt,
       "price": resource.startQnt.price,
       "value": Math.round(resource.startQnt.qnt * resource.startQnt.price)
@@ -121,7 +122,7 @@ for (let resource of resources) {
       res.registry.push({
         "opId": opId++,
         "opType": "inc",
-        "date": transfer.dateArrival,
+        "date": moment(transfer.dateArrival, 'DD-MM-YYYY'),
         "qnt": transfer.qnt,
         "price": transfer.price,
         "value": Math.round(transfer.qnt * transfer.price)
@@ -135,7 +136,7 @@ for (let resource of resources) {
 resReg[0].registry.push({
   "opId": 3,
   "opType": "dec",
-  "date": "01-03-2018",
+  "date": moment("01-03-2018", 'DD-MM-YYYY'),
   "qnt": 420
 })
 
