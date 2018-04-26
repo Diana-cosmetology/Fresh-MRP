@@ -4,7 +4,7 @@
     "name": "Производство геля Biomatrix на ФГУП Вектор",
     "productId": "bmx-am",
     "qntMin": 2000,
-    "antStep": 1000,
+    "qntStep": 1000,
     "stages": [
       {
         "stepNo": 1,
@@ -12,7 +12,7 @@
         "duration": 5,
         "resources": [
           {
-            "resource": "hy",
+            "resourceId": "hy",
             "qntBase": 10000,
             "qnt": 155
           }

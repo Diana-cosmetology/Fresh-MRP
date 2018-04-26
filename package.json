@@ -1,6 +1,16 @@
 {
   "name": "fresh-mrp",
+  "description": "MRP2 planning app",
+  "author": "Denis Kiselev (http://deksden.com/)",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Diana-cosmetology/Fresh-MRP.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "run": "node app.js"
+  },
   "dependencies": {
     "lodash": "^4.17.5",
     "moment": "^2.22.1",

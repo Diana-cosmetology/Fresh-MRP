@@ -30,6 +30,7 @@ const resources = require("./data/resources")
 const manufacturing = require("./data/manufacturing")
 
 const DATE_PATTERN = 'DD-MM-YYYY'
+const resReg = [] // registry for resources
 
 /* Process resource registry to calculate remains up to date and remains quantity:
 * */
@@ -99,28 +100,88 @@ function processRemains(registry) {
   }
 }
 
+function resQntForDate(resource, date) {
+  // get registry for resource
+  const res = _.find(resReg, ['resourceId', resource.resourceId])
+
+  // process registry to get all information:
+  let qnt = 0
+
+  if (res && res.registry) {
+    for (let item of res.registry) {
+      if (item.date.isSameOrBefore(date)) {
+        qnt = item.remainQnt
+      } else
+        break
+    }
+  }
+  return qnt
+}
+
+function addRegistryOp(resource, op) {
+  resource.registry.push(op)
+  resource.registry = _.sortBy(resource.registry, ['date', 'opType'])
+}
+
 /*
   Process Manufacturing plan:
   - from first to last
 */
 function processManufacturing() {
+  // iterate over manufacturing plan
   for(let item of manufacturing) {
     item.process = _.find(process, ['processId', item.processId])
     item.readyDate = moment(item.date, DATE_PATTERN)
-    if (item.process) {
-      let aDate = item.readyDate
-      let totalDuration = 0
-      for(stage of item.process.stages) {
-        aDate = aDate.businessSubtract(stage.duration)
-        totalDuration += stage.duration
+    item.resourcesUsed = []
+
+    // if process is not defined or not found for this plan item
+    if (!item.process)
+      continue
+
+    let aDate = item.readyDate
+    let totalDuration = 0
+    for(let stage of item.process.stages) {
+      aDate = aDate.businessSubtract(stage.duration)
+      totalDuration += stage.duration
+
+      // calc resources
+      if (!stage.resources)
+        continue
+
+      // calculate resource usage:
+      for(let stageResource of stage.resources) {
+        stageResource.resource = _.find(resources, ['resourceId', stageResource.resourceId])
+        // calc resource usage for this step
+        let reqQnt = stageResource.qnt / stageResource.qntBase * item.qnt
+
+        // calc actual resource count
+        let factQnt = resQntForDate(stageResource, aDate)
+
+        // if there is ok with resources:
+        if (factQnt >= reqQnt - stageResource.resource.minQnt) {
+          // add registry item about utilizing that resources:
+          addRegistryOp(_.find(resReg, ['resourceId', stageResource.resourceId]), {
+            "opId": resReg.length + 1,
+            "date": aDate,
+            "opType": "dec",
+            "qnt": Math.round(reqQnt),
+          })
+        }
+
+        // push data for later usage
+        item.resourcesUsed.push({
+          "stage": stage,
+          "stageResource": stageResource,
+          "reqQnt": Math.round(reqQnt),
+          "factQnt": factQnt
+        })
       }
-      item.startDate = aDate
-      item.totalDuration = totalDuration
     }
+    item.startDate = aDate
+    item.totalDuration = totalDuration
   }
 }
 
-const resReg = [] // registry for resources
 
 for (let resource of resources) {
   console.log(util.inspect(resource, false, null))
@@ -175,4 +236,4 @@ console.log(util.inspect(resReg, false, null))
 
 processManufacturing()
 
-console.log(manufacturing)
+console.log(util.inspect(manufacturing, false, null))

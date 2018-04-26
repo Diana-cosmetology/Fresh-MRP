@@ -3,6 +3,7 @@
     "resourceId": "hy",
     "title": "Hyaluronate Sodium",
     "unit": "gr",
+    "minQnt": 30,
     "suppliers": [
       {
         "supplierId": "conti",
