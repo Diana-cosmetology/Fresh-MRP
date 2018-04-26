@@ -19,6 +19,7 @@ res reg:
 
 
 */
+
 const util = require('util')
 const _ = require('lodash')
 const moment = require('moment-business-days')
@@ -26,6 +27,9 @@ const moment = require('moment-business-days')
 const process = require("./data/process")
 const products = require("./data/products")
 const resources = require("./data/resources")
+const manufacturing = require("./data/manufacturing")
+
+const DATE_PATTERN = 'DD-MM-YYYY'
 
 /* Process resource registry to calculate remains up to date and remains quantity:
 * */
@@ -41,7 +45,7 @@ function processRemains(registry) {
       remains = []
       remains.push({
         "opId": item.opId,
-        "date": moment(item.date, 'DD-MM-YYYY'),
+        "date": moment(item.date, DATE_PATTERN),
         "qnt": item.qnt,
         "price": item.price,
         "value": item.value
@@ -53,7 +57,7 @@ function processRemains(registry) {
       value += item.value
       remains.push({
         "opId": item.opId,
-        "date": moment(item.date, 'DD-MM-YYYY'),
+        "date": moment(item.date, DATE_PATTERN),
         "qnt": item.qnt,
         "price": item.price,
         "value": item.value
@@ -95,6 +99,27 @@ function processRemains(registry) {
   }
 }
 
+/*
+  Process Manufacturing plan:
+  - from first to last
+*/
+function processManufacturing() {
+  for(let item of manufacturing) {
+    item.process = _.find(process, ['processId', item.processId])
+    item.readyDate = moment(item.date, DATE_PATTERN)
+    if (item.process) {
+      let aDate = item.readyDate
+      let totalDuration = 0
+      for(stage of item.process.stages) {
+        aDate = aDate.businessSubtract(stage.duration)
+        totalDuration += stage.duration
+      }
+      item.startDate = aDate
+      item.totalDuration = totalDuration
+    }
+  }
+}
+
 const resReg = [] // registry for resources
 
 for (let resource of resources) {
@@ -110,7 +135,7 @@ for (let resource of resources) {
     res.registry.push({
       "opId": opId++,
       "opType": "initial",
-      "date": moment(resource.startQnt.date, 'DD-MM-YYYY'),
+      "date": moment(resource.startQnt.date, DATE_PATTERN),
       "qnt": resource.startQnt.qnt,
       "price": resource.startQnt.price,
       "value": Math.round(resource.startQnt.qnt * resource.startQnt.price)
@@ -122,7 +147,7 @@ for (let resource of resources) {
       res.registry.push({
         "opId": opId++,
         "opType": "inc",
-        "date": moment(transfer.dateArrival, 'DD-MM-YYYY'),
+        "date": moment(transfer.dateArrival, DATE_PATTERN),
         "qnt": transfer.qnt,
         "price": transfer.price,
         "value": Math.round(transfer.qnt * transfer.price)
@@ -136,7 +161,7 @@ for (let resource of resources) {
 resReg[0].registry.push({
   "opId": 3,
   "opType": "dec",
-  "date": moment("01-03-2018", 'DD-MM-YYYY'),
+  "date": moment("01-03-2018", DATE_PATTERN),
   "qnt": 420
 })
 
@@ -148,3 +173,6 @@ for (let res of resReg) {
 console.log('## Resource registry (with remains):')
 console.log(util.inspect(resReg, false, null))
 
+processManufacturing()
+
+console.log(manufacturing)
