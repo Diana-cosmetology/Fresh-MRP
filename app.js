@@ -28,18 +28,88 @@ const process = require("./data/process")
 const products = require("./data/products")
 const resources = require("./data/resources")
 const manufacturing = require("./data/manufacturing")
+const resourceOrders = []
 
 const DATE_PATTERN = 'DD-MM-YYYY'
-const resReg = [] // registry for resources
+
+/**
+
+ Resource Operation:
+   (props)
+   (remain + remains)
+
+ Resource Remain:
+   - qnt
+   - value
+   - price
+
+ Resource:
+  (props)
+  Operations: [] ResourceOperation
+
+ Orders:
+   (props)
+   MakeOrder
+
+
+*/
+
+/**
+ * initResources:: initialize loaded resources.json with processed initialQnt and inTransferQnt
+ */
+function initResources() {
+  for(let resource of resources) {
+    resource.registry = []
+    let opId = 1
+
+    if (resource.initialQnt) {
+      resource.registry.push({
+        "opId": opId++,
+        "opType": "initial",
+        "date": moment(resource.initialQnt.date, DATE_PATTERN),
+        "qnt": resource.initialQnt.qnt,
+        "price": resource.initialQnt.price,
+        "value": Math.round(resource.initialQnt.qnt * resource.initialQnt.price)
+      })
+    }
+
+    if (resource.inTransfer) {
+      for (let transfer of resource.inTransfer) {
+        resource.registry.push({
+          "opId": opId++,
+          "opType": "inc",
+          "opSubType": "inTransfer",
+          "date": moment(transfer.dateArrival, DATE_PATTERN),
+          "qnt": transfer.qnt,
+          "price": transfer.price,
+          "value": Math.round(transfer.qnt * transfer.price)
+        })
+      }
+    }
+    processRemains(resource)
+  }
+}
+
+function sortRegistryForResource(resource) {
+  if (resource.registry)
+    resource.registry = _.sortBy(resource.registry, ['date', 'opType', 'subOpType'])
+}
 
 /* Process resource registry to calculate remains up to date and remains quantity:
 * */
-function processRemains(registry) {
+function processRemains(resource) {
   let qnt = 0
   let value = 0
   let remains = []
 
-  for (let item of registry) {
+  sortRegistryForResource(resource)
+
+  if (!resource.registry) {
+    resource.registry = []
+    return
+  }
+
+  for (let item of resource.registry) {
     if (item.opType === "initial") {
       qnt = item.qnt
       value = item.value
@@ -89,8 +159,10 @@ function processRemains(registry) {
       }
 
       // remove all zeroed remains from array:
-      while (remains[0].qnt === 0 && remains.length > 0) {
-        remains.splice(0, 1)
+      if (remains) {
+        while (remains.length > 0 && remains[0].qnt === 0) {
+          remains.splice(0, 1)
+        }
       }
     }
 
@@ -100,15 +172,17 @@ function processRemains(registry) {
   }
 }
 
-function resQntForDate(resource, date) {
-  // get registry for resource
-  const res = _.find(resReg, ['resourceId', resource.resourceId])
 
+function findResourceById(resId) {
+  return _.find(resources, ['resourceId', resId])
+}
+
+function resQntForDate(resource, date) {
   // process registry to get all information:
   let qnt = 0
 
-  if (res && res.registry) {
-    for (let item of res.registry) {
+  if (resource.registry) {
+    for (let item of resource.registry) {
       if (item.date.isSameOrBefore(date)) {
         qnt = item.remainQnt
       } else
@@ -120,7 +194,60 @@ function resQntForDate(resource, date) {
 
 function addRegistryOp(resource, op) {
   resource.registry.push(op)
-  resource.registry = _.sortBy(resource.registry, ['date', 'opType'])
+  sortRegistryForResource(resource)
+}
+
+function getLastOrderForResource(date, resource) {
+  let lastOrder = undefined
+
+  for (let order of resourceOrders) {
+    if ((order.resource.resourceId === resource.resourceId) && (order.date.businessDiff(date) < resource.orderPeriod))
+      lastOrder = order
+  }
+
+  return lastOrder
+}
+
+function addResourceOrder(date, resource, reqQnt) {
+  // check if we have some order for resource already in order window period:
+  let lastOrder = getLastOrderForResource(date,resource)
+
+  if (lastOrder) {
+    // ok, increase order by reqQnt:
+    lastOrder.reqQnt += reqQnt
+    lastOrder.qnt = lastOrder.reqQnt < resource.minQnt ? resource.minQnt : lastOrder.reqQnt // handle min batch for order
+  } else {
+    // register new order for this resource
+    resourceOrders.push({
+      "resource": resource,
+      "date": date,
+      "reqQnt": reqQnt,
+      "qnt": reqQnt < resource.minQnt ? resource.minQnt : reqQnt
+    })
+  }
+
+  addOrdersToRegistry(resource)
+}
+
+function addOrdersToRegistry(resource) {
+  // remove all orders from registry, then add them with new data
+  _.remove(resource.registry, ['opSubType', 'order'])
+
+  for(let order of resourceOrders) {
+    if (order.resource.resourceId === resource.resourceId)
+      resource.registry.push({
+        "id": resource.registry.length + 1,
+        "opType": "inc",
+        "opSubType": "order",
+        "qnt": order.qnt,
+        "date": order.date,
+        "price": order.resource.defPrice,
+        "value": Math.round(order.qnt * order.resource.defPrice)
+      })
+  }
+
+  // process remains:
+  processRemains(resource)
 }
 
 /*
@@ -141,32 +268,39 @@ function processManufacturing() {
     let aDate = item.readyDate
     let totalDuration = 0
     for(let stage of item.process.stages) {
+      console.log('stage:')
+      console.log(stage)
+
       aDate = aDate.businessSubtract(stage.duration)
       totalDuration += stage.duration
 
-      // calc resources
+      // calculate resource usage:
       if (!stage.resources)
         continue
 
-      // calculate resource usage:
       for(let stageResource of stage.resources) {
-        stageResource.resource = _.find(resources, ['resourceId', stageResource.resourceId])
+        stageResource.resource = findResourceById(stageResource.resourceId)
         // calc resource usage for this step
         let reqQnt = stageResource.qnt / stageResource.qntBase * item.qnt
 
         // calc actual resource count
         let factQnt = resQntForDate(stageResource, aDate)
 
-        // if there is ok with resources:
-        if (factQnt >= reqQnt - stageResource.resource.minQnt) {
-          // add registry item about utilizing that resources:
-          addRegistryOp(_.find(resReg, ['resourceId', stageResource.resourceId]), {
-            "opId": resReg.length + 1,
-            "date": aDate,
-            "opType": "dec",
-            "qnt": Math.round(reqQnt),
-          })
+        // if there is enough resources for this stage of manufacturing:
+        if (factQnt < reqQnt - stageResource.resource.minStock) {
+          // not enough resources, register resource order for needed resource
+          addResourceOrder(aDate, stageResource.resource, reqQnt)
+          factQnt = resQntForDate(stageResource, aDate)
         }
+
+        // simply register resource's consumption:
+        addRegistryOp(stageResource.resource, {
+          "opId": stageResource.resource.registry.length + 1,
+          "date": aDate,
+          "opType": "dec",
+          "qnt": Math.round(reqQnt),
+        })
+        processRemains(stageResource.resource)
 
         // push data for later usage
         item.resourcesUsed.push({
@@ -182,58 +316,18 @@ function processManufacturing() {
   }
 }
 
-
-for (let resource of resources) {
-  console.log(util.inspect(resource, false, null))
-
-  const res = {
-    "resourceId": resource.resourceId,
-    "registry": []
-  }
-  let opId = 1
-
-  if (resource.startQnt) {
-    res.registry.push({
-      "opId": opId++,
-      "opType": "initial",
-      "date": moment(resource.startQnt.date, DATE_PATTERN),
-      "qnt": resource.startQnt.qnt,
-      "price": resource.startQnt.price,
-      "value": Math.round(resource.startQnt.qnt * resource.startQnt.price)
-    })
-  }
-
-  if (resource.inTransfer) {
-    for (let transfer of resource.inTransfer) {
-      res.registry.push({
-        "opId": opId++,
-        "opType": "inc",
-        "date": moment(transfer.dateArrival, DATE_PATTERN),
-        "qnt": transfer.qnt,
-        "price": transfer.price,
-        "value": Math.round(transfer.qnt * transfer.price)
-      })
-    }
-  }
-  resReg.push(res)
-}
-
-// add test operation for decrement of qnt:
-resReg[0].registry.push({
-  "opId": 3,
-  "opType": "dec",
-  "date": moment("01-03-2018", DATE_PATTERN),
-  "qnt": 420
-})
-
-// process remains for each resource's registry:
-for (let res of resReg) {
-  if(res.registry) processRemains(res.registry)
-}
+initResources()
 
 console.log('## Resource registry (with remains):')
-console.log(util.inspect(resReg, false, null))
+console.log(util.inspect(resources, false, null))
 
 processManufacturing()
 
-console.log(util.inspect(manufacturing, false, null))
+console.log('## Manufacturing: ')
+console.log(manufacturing)
+
+console.log('## resourceOrders: ')
+console.log(util.inspect(resourceOrders, false, null))
+
+console.log('## Resource registry (with remains - after manufacturing):')
+console.log(util.inspect(resources, false, null))

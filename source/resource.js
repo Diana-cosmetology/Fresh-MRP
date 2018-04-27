@@ -1,0 +1,7 @@
+/**
+ Resource class
+ */
+
+class Resource {
+
+}
