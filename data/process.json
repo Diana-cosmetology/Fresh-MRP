@@ -1,51 +1,22 @@
 [
   {
     "processId": "bmx-vk",
-    "name": "Производство геля Biomatrix на ФГУП Вектор",
+    "name": "BMX-VK 1.0.0",
     "productId": "bmx-am",
     "qntMin": 2000,
     "qntStep": 1000,
     "stages": [
       {
         "stepNo": 1,
-        "title": "Производство серии Biomatrix",
-        "duration": 5,
+        "title": "BMX",
+        "duration": 4,
         "resources": [
           {
             "resourceId": "hy",
             "qntBase": 10000,
             "qnt": 155
           }
-        ],
-        "costs": [
-          {
-            "costType": "level",
-            "levels": [
-              {
-                "levelId": "1",
-                "qntMin": 0,
-                "qntBase": 1,
-                "cost": 125.00
-              },
-              {
-                "levelId": "2",
-                "qntMin": 1000,
-                "qntBase": 1,
-                "cost": 120.00
-              }
-            ]
-          }
         ]
-      },
-      {
-        "stepNo": 2,
-        "title": "контроли",
-        "duration": 10
-      },
-      {
-        "stepNo": 3,
-        "title": "упаковка в коробки",
-        "duration": 3
       }
     ]
   }
