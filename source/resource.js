@@ -22,7 +22,7 @@ export class Resource {
     if (resource.initialQnt) {
       resource.registry.push({
         opId: opId++,
-        opType: 'initial',
+        opType: '0-init',
         date: moment(resource.initialQnt.date, DATE_PATTERN),
         qnt: resource.initialQnt.qnt,
         price: resource.initialQnt.price,
@@ -34,7 +34,7 @@ export class Resource {
       resource.inTransfer.map((transfer) => {
         resource.registry.push({
           opId: opId++,
-          opType: 'inc',
+          opType: '1-inc',
           opSubType: 'inTransfer',
           date: moment(transfer.dateArrival, DATE_PATTERN),
           qnt: transfer.qnt,
@@ -65,7 +65,7 @@ export class Resource {
     }
 
     resource.registry.map((item) => {
-      if (item.opType === 'initial') {
+      if (item.opType === '0-init') {
         ({ qnt, value } = item)
         remains = []
         remains.push({
@@ -77,7 +77,7 @@ export class Resource {
         })
       }
 
-      if (item.opType === 'inc') {
+      if (item.opType === '1-inc') {
         qnt += item.qnt
         value += item.value
         remains.push({
@@ -90,7 +90,7 @@ export class Resource {
       }
 
       // decrement operation have no value & price, so we nned to calculate it
-      if (item.opType === 'dec') {
+      if (item.opType === '2-dec') {
         qnt -= item.qnt
 
         // if qnt < 0 then raise exception
@@ -172,14 +172,14 @@ export class Resource {
     if (lastOrder) {
       // ok, increase order by reqQnt:
       lastOrder.reqQnt += reqQnt
-      lastOrder.qnt = lastOrder.reqQnt < resource.minQnt ? resource.minQnt : lastOrder.reqQnt
+      lastOrder.qnt = lastOrder.reqQnt < resource.minOrder ? resource.minOrder : lastOrder.reqQnt
     } else {
       // register new order for this resource
       resource.orders.push({
         resource,
         date,
         reqQnt,
-        qnt: reqQnt < resource.minQnt ? resource.minQnt : reqQnt,
+        qnt: reqQnt < resource.minOrder ? resource.minOrder : reqQnt,
       })
     }
 
@@ -194,8 +194,8 @@ export class Resource {
 
     resource.orders.map((order) => {
       this.addOpToRegistry({
-        id: resource.registry.length + 1,
-        opType: 'inc',
+        opId: resource.registry.length + 1,
+        opType: '1-inc',
         opSubType: 'order',
         qnt: order.qnt,
         date: order.date,
@@ -216,6 +216,7 @@ export class Resources {
 
   loadFromFile(filename) {
     const loadedResources = JSON.parse(fs.readFileSync(filename, 'utf8'));
+    this.resources = []
 
     loadedResources.map((loadedResource) => {
       const aResource = new Resource()

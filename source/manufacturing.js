@@ -58,7 +58,7 @@ export class Manufacturing {
           stageResource.resource.addOpToRegistry({
             opId: stageResource.resource.registry.length + 1,
             date: aDate,
-            opType: 'dec',
+            opType: '2-dec',
             qnt: Math.round(reqQnt),
           })
 
