@@ -16,8 +16,8 @@ describe('ERP use cases', () => {
 
   before(function (done) {
     this.timeout(10000)
-    resources.loadFromFile('./data/resources-1.json')
-    manufacturing.loadFromFile('./data/manufacturing-1.json')
+    resources.loadFromFile('./test/data/resources-1.json')
+    manufacturing.loadFromFile('./test/data/manufacturing-1.json')
     manufacturing.resources = resources
     manufacturing.process = process
 
@@ -31,6 +31,15 @@ describe('ERP use cases', () => {
     const hy_resource = resources.byId('hy')
     expect(hy_resource).to.exist
     expect(hy_resource.registry).to.exist
+    expect(hy_resource.registry).to.have.lengthOf(3)
+
+    expect(hy_resource.registry[0].remainQnt).to.be.equal(120)
+    expect(hy_resource.registry[1].remainQnt).to.be.equal(120+300)
+    expect(hy_resource.registry[2].remainQnt).to.be.equal(120+300-155)
+
+    expect(hy_resource.registry[0].remains).to.have.lengthOf(1)
+    expect(hy_resource.registry[1].remains).to.have.lengthOf(2)
+    expect(hy_resource.registry[2].remains).to.have.lengthOf(1)
     done()
   })
 })
