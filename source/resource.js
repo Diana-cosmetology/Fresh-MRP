@@ -1,3 +1,7 @@
+/**
+ (c) deksden, 2017-2018
+ */
+
 /* eslint-disable no-underscore-dangle,array-callback-return,no-plusplus,no-param-reassign */
 import moment from 'moment-business-days'
 import _ from 'lodash'
@@ -149,7 +153,7 @@ export class Resource {
 
   getLastOrder(date) {
     const resource = this
-    let lastOrder
+    let lastOrder = null
 
     if (!resource.orders) {
       resource.orders = []
@@ -214,15 +218,19 @@ export class Resources {
     this.resources = []
   }
 
-  loadFromFile(filename) {
+  addFromFile(filename) {
     const loadedResources = JSON.parse(fs.readFileSync(filename, 'utf8'));
-    this.resources = []
 
     loadedResources.map((loadedResource) => {
       const aResource = new Resource()
       aResource.initFromObject(loadedResource)
       this.resources.push(aResource)
     })
+  }
+
+  loadFromFile(filename) {
+    this.resources = []
+    this.addFromFile(filename)
   }
 
   byId(resId) {

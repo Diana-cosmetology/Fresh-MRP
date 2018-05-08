@@ -1,0 +1,184 @@
+[
+  {
+    "resourceId": "hy-ch",
+    "title": "Hyalyrone (china)",
+    "unit": "gr",
+    "minStock": 50,
+    "minOrder": 50,
+    "orderPeriod": 40,
+    "defPrice": 1000,
+    "initialQnt": {
+      "date": "01-01-2018",
+      "qnt": 1500,
+      "price": 1000
+    },
+    "inTransfer": [
+      {
+        "dateArrival": "01-01-2018",
+        "qnt": 0,
+        "price": 1000
+      }
+    ]
+  },
+  {
+    "resourceId": "novh",
+    "title": "Novhyal (Swiss)",
+    "unit": "gr",
+    "minStock": 150,
+    "minOrder": 500,
+    "orderPeriod": 40,
+    "defPrice": 1000,
+    "initialQnt": {
+      "date": "01-01-2018",
+      "qnt": 2000,
+      "price": 1000
+    },
+    "inTransfer": [
+      {
+        "dateArrival": "01-01-2018",
+        "qnt": 0,
+        "price": 1000
+      }
+    ]
+  },
+  {
+    "resourceId": "pt-b",
+    "title": "Peptide: pt-b",
+    "unit": "gr",
+    "minStock": 50,
+    "minOrder": 500,
+    "orderPeriod": 40,
+    "defPrice": 1000,
+    "initialQnt": {
+      "date": "01-01-2018",
+      "qnt": 450,
+      "price": 200
+    }
+  },
+  {
+    "resourceId": "pd240",
+    "title": "Peptide: pd240",
+    "unit": "gr",
+    "minStock": 50,
+    "minOrder": 500,
+    "orderPeriod": 40,
+    "defPrice": 1000,
+    "initialQnt": {
+      "date": "01-01-2018",
+      "qnt": 450,
+      "price": 200
+    }
+  },
+  {
+    "resourceId": "pd190",
+    "title": "Peptide: pd190",
+    "unit": "gr",
+    "minStock": 50,
+    "minOrder": 500,
+    "orderPeriod": 40,
+    "defPrice": 1000,
+    "initialQnt": {
+      "date": "01-01-2018",
+      "qnt": 450,
+      "price": 200
+    }
+  },
+  {
+    "resourceId": "pd250",
+    "title": "Peptide: pd250",
+    "unit": "gr",
+    "minStock": 50,
+    "minOrder": 500,
+    "orderPeriod": 40,
+    "defPrice": 1000,
+    "initialQnt": {
+      "date": "01-01-2018",
+      "qnt": 450,
+      "price": 200
+    }
+  },
+  {
+    "resourceId": "pd170",
+    "title": "Peptide: pd170",
+    "unit": "gr",
+    "minStock": 50,
+    "minOrder": 500,
+    "orderPeriod": 40,
+    "defPrice": 1000,
+    "initialQnt": {
+      "date": "01-01-2018",
+      "qnt": 450,
+      "price": 200
+    }
+  },
+  {
+    "resourceId": "mtrx",
+    "title": "Matrixyl (SFM)",
+    "unit": "gr",
+    "minStock": 50,
+    "minOrder": 50,
+    "orderPeriod": 40,
+    "defPrice": 300,
+    "initialQnt": {
+      "date": "01-01-2018",
+      "qnt": 350,
+      "price": 300
+    }
+  },
+  {
+    "resourceId": "bmx-s-et",
+    "title": "Etiketka BMX S",
+    "unit": "itm",
+    "minStock": 0,
+    "minOrder": 500,
+    "orderPeriod": 10,
+    "defPrice": 2,
+    "initialQnt": {
+      "date": "01-01-2018",
+      "qnt": 0,
+      "price": 1000
+    }
+  },
+  {
+    "resourceId": "bmx-s-pk",
+    "title": "Pack BMX S",
+    "unit": "itm",
+    "minStock": 0,
+    "minOrder": 500,
+    "orderPeriod": 10,
+    "defPrice": 2,
+    "initialQnt": {
+      "date": "01-01-2018",
+      "qnt": 0,
+      "price": 1000
+    }
+  },
+  {
+    "resourceId": "fl30",
+    "title": "Flack 30ml",
+    "unit": "itm",
+    "minStock": 500,
+    "minOrder": 1000,
+    "orderPeriod": 25,
+    "defPrice": 1.2,
+    "initialQnt": {
+      "date": "01-01-2018",
+      "qnt": 2300,
+      "price": 1.2
+    }
+  },
+  {
+    "resourceId": "fl-cr",
+    "title": "Flack pack",
+    "unit": "itm",
+    "minStock": 500,
+    "minOrder": 1000,
+    "orderPeriod": 25,
+    "defPrice": 0.3,
+    "initialQnt": {
+      "date": "01-01-2018",
+      "qnt": 2300,
+      "price": 0.3
+    }
+  }
+]

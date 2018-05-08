@@ -1,0 +1,51 @@
+[
+  {
+    "processId": "bmx-vk",
+    "name": "BMX-VK 1.0.0",
+    "productId": "bmx-am",
+    "qntMin": 2000,
+    "qntStep": 1000,
+    "stages": [
+      {
+        "stepNo": 1,
+        "title": "BMX",
+        "duration": 4,
+        "resourceBase": 10000,
+        "resources": [
+          {
+            "resourceId": "hy",
+            "qnt": 160
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "processId": "bmx-serum",
+    "name": "BIOMATRIX Serum",
+    "qntMin": 500,
+    "qntStep": 100,
+    "resourceBase": 904,
+    "stages": [
+      {
+        "stepNo": 1,
+        "title": "production",
+        "duration": 8,
+        "resources": [
+          { "resourceId": "hy-ch",    "qnt": 0.880 },
+          { "resourceId": "novh",     "qnt": 880 },
+          { "resourceId": "pt-b",     "qnt": 0.060 },
+          { "resourceId": "pd240",    "qnt": 0.060 },
+          { "resourceId": "pd190",    "qnt": 0.060 },
+          { "resourceId": "pd250",    "qnt": 0.060 },
+          { "resourceId": "pd170",    "qnt": 0.060 },
+          { "resourceId": "mtrx",     "qnt": 0.03 },
+          { "resourceId": "bmx-s-et", "qnt": 904 },
+          { "resourceId": "bmx-s-pk", "qnt": 904 },
+          { "resourceId": "fl30",     "qnt": 904 },
+          { "resourceId": "fl-cr",    "qnt": 904 }
+        ]
+      }
+    ]
+  }
+]

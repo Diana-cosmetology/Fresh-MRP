@@ -1,3 +1,7 @@
+/**
+ (c) deksden, 2017-2018
+ */
+
 /* eslint-disable array-callback-return,no-param-reassign */
 import _ from 'lodash'
 import moment from 'moment-business-days'
@@ -42,7 +46,7 @@ export class Manufacturing {
         for (const stageResource of stage.resources) {
           stageResource.resource = this.resources.byId(stageResource.resourceId)
           // calc resource usage for this step
-          const reqQnt = (item.qnt * stageResource.qnt) / stageResource.qntBase
+          const reqQnt = (item.qnt * stageResource.qnt) / item.process.resourceBase
 
           // calc actual resource count
           let factQnt = stageResource.resource.forDate(aDate)

@@ -1,0 +1,21 @@
+  {
+    "resourceId": "",
+    "title": "",
+    "unit": "",
+    "minStock": 50,
+    "minOrder": 50,
+    "orderPeriod": 40,
+    "defPrice": 1000,
+    "initialQnt": {
+      "date": "01-01-2018",
+      "qnt": 0,
+      "price": 1000
+    },
+    "inTransfer": [
+      {
+        "dateArrival": "01-01-2018",
+        "qnt": 0,
+        "price": 1000
+      }
+    ]
+  },

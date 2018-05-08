@@ -1,3 +1,6 @@
+/**
+ (c) deksden, 2017-2018
+ */
 /* eslint-disable no-restricted-syntax, no-param-reassign, no-use-before-define,
 array-callback-return, no-console, no-plusplus */
 import util from 'util'
