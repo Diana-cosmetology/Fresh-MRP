@@ -119,18 +119,31 @@ describe('MRP test cases', () => {
       this.timeout(5000)
       manufacturing.processManufacturing()
 
-      const hy_resource = resources.byId('hy-ch')
+      expect(manufacturing.resources.resources).to.have.lengthOf(13)
+
+      expect(manufacturing.resources.byId('hy')).to.exist
+      expect(manufacturing.resources.byId('novh')).to.exist
+      expect(manufacturing.resources.byId('pt-b')).to.exist
+      expect(manufacturing.resources.byId('pd170')).to.exist
+      expect(manufacturing.resources.byId('pd190')).to.exist
+      expect(manufacturing.resources.byId('pd240')).to.exist
+      expect(manufacturing.resources.byId('pd250')).to.exist
+      expect(manufacturing.resources.byId('mtrx')).to.exist
+      expect(manufacturing.resources.byId('bmx-s-et')).to.exist
+      expect(manufacturing.resources.byId('bmx-s-pk')).to.exist
+      expect(manufacturing.resources.byId('fl30')).to.exist
+      expect(manufacturing.resources.byId('fl-cr')).to.exist
+
+      const hy_resource = manufacturing.resources.byId('hy-ch')
       expect(hy_resource).to.exist
       expect(hy_resource.registry).to.exist
-      expect(hy_resource.registry).to.have.lengthOf(3)
+      expect(hy_resource.registry).to.have.lengthOf(2)
 
-      expect(hy_resource.registry[0].remainQnt).to.be.equal(120)
-      expect(hy_resource.registry[1].remainQnt).to.be.equal(120 + 300)
-      expect(hy_resource.registry[2].remainQnt).to.be.equal(120 + 300 - 160)
+      expect(hy_resource.registry[0].remainQnt).to.be.equal(1500)
+      expect(hy_resource.registry[1].remainQnt).to.be.equal(1500 - 2)
 
       expect(hy_resource.registry[0].remains).to.have.lengthOf(1)
-      expect(hy_resource.registry[1].remains).to.have.lengthOf(2)
-      expect(hy_resource.registry[2].remains).to.have.lengthOf(1)
+      expect(hy_resource.registry[1].remains).to.have.lengthOf(1)
       done()
     })
   })

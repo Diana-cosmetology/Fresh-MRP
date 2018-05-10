@@ -36,15 +36,17 @@ export class Resource {
 
     if (resource.inTransfer) {
       resource.inTransfer.map((transfer) => {
-        resource.registry.push({
-          opId: opId++,
-          opType: '1-inc',
-          opSubType: 'inTransfer',
-          date: moment(transfer.dateArrival, DATE_PATTERN),
-          qnt: transfer.qnt,
-          price: transfer.price,
-          value: Math.round(transfer.qnt * transfer.price),
-        })
+        if( Math.round(transfer.qnt) > 0) {
+          resource.registry.push({
+            opId: opId++,
+            opType: '1-inc',
+            opSubType: 'inTransfer',
+            date: moment(transfer.dateArrival, DATE_PATTERN),
+            qnt: transfer.qnt,
+            price: transfer.price,
+            value: Math.round(transfer.qnt * transfer.price),
+          })
+        }
       })
     }
     this.processRemains()
