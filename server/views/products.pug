@@ -1,0 +1,17 @@
+html
+  head
+    title ERP products
+  body
+    h1 Products
+    table
+      tr
+        td ID
+        td Name
+        td Unit
+      for product in products
+        tr
+          td #{ product.productId }
+          //td
+          //  a(href='/person/' + person.id) #{person.name}
+          td #{ product.name }
+          td #{ product.unit }

@@ -10,12 +10,15 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development babel-node $NODE_DEBUG_OPTION app.js",
-    "test": "NODE_ENV=test mocha test/**/*.js"
+    "test": "NODE_ENV=test mocha test/**/*.js",
+    "server": "NODE_ENV=development babel-node $NODE_DEBUG_OPTION server/server.js"
   },
   "dependencies": {
+    "express": "^4.16.3",
     "lodash": "^4.17.5",
     "moment": "^2.22.1",
-    "moment-business-days": "^1.0.6"
+    "moment-business-days": "^1.0.6",
+    "pug": "^2.0.3"
   },
   "devDependencies": {
     "babel-cli": "6.x",
