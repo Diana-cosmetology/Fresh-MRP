@@ -10,8 +10,8 @@ html
         td Unit
       for product in products
         tr
-          td #{ product.productId }
-          //td
-          //  a(href='/person/' + person.id) #{person.name}
+          //td #{ product.productId }
+          td
+            a(href=`/erp/products/${product.productId}`) #{product.productId}
           td #{ product.name }
           td #{ product.unit }
