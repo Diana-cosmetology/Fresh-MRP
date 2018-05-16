@@ -11,9 +11,10 @@
   "scripts": {
     "dev": "NODE_ENV=development babel-node $NODE_DEBUG_OPTION app.js",
     "test": "NODE_ENV=test mocha test/**/*.js",
-    "server": "NODE_ENV=development babel-node $NODE_DEBUG_OPTION server/server.js"
+    "start": "NODE_ENV=development babel-node $NODE_DEBUG_OPTION server/server.js"
   },
   "dependencies": {
+    "app-root-dir": "^1.0.2",
     "body-parser": "latest",
     "express": "^4.16.3",
     "express-validator": "^5.2.0",

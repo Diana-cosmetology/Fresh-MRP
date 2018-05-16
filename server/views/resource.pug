@@ -1,0 +1,30 @@
+html
+  head
+    title Resource
+  body
+    h1 Resource
+
+    p id: #{resource.productId}
+    p title: #{resource.title}
+    p unit: #{resource.unit}
+    p min stock: #{ resource.minStock }
+    p min order: #{ resource.minOrder }
+    p order period: #{ resource.orderPeriod }
+    p def price: #{ resource.defPrice }
+    if resource.initialQnt
+      h3 initial qnt:
+      p date: #{ resource.initialQnt.date }
+      p qnt: #{ resource.initialQnt.qnt }
+      p price: #{ resource.initialQnt.price }
+    if resource.inTransfer
+        h3 In Transfer:
+        table
+            tr
+                td dateArrival
+                td qnt
+                td price
+            for transfer in resource.inTransfer
+                tr
+                    td #{ transfer.dateArrival }
+                    td #{ transfer.qnt }
+                    td #{ transfer.price }
