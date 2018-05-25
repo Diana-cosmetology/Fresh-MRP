@@ -65,6 +65,13 @@ app.data.res = resources
 app.data.resources = resources.resources
 app.data.manufacturing = manufacturing
 app.data.process = process
+app.data.config = {}
+app.data.config.preset = []
+app.data.config.resourcesFile = `${appRootDir}/data/resources.json`
+app.data.config.manufacturingFile = `${appRootDir}/data/manufacturing.json`
+app.data.config.preset.push({ resourcesFile: app.data.config.resourcesFile, manufacturingFile: app.data.config.manufacturingFile}) // preset 0
+app.data.config.preset.push({ resourcesFile: `${appRootDir}/test/data/res-1.json`, manufacturingFile: `${appRootDir}/test/data/mfg-2.json`}) // preset 1
+
 
 // configure routes:
 app.get('/erp/products', app.wrap(erpController.getProducts))
@@ -73,6 +80,9 @@ app.get('/erp/resources', app.wrap(erpController.getResources))
 app.get('/erp/resources/:resourceId', app.wrap(erpController.getResource))
 app.get('/erp/process', app.wrap(erpController.getProcess))
 app.get('/erp/manufacturing', app.wrap(erpController.getManufacturing))
+app.get('/erp/orders', app.wrap(erpController.getOrders))
+app.get('/erp/config', app.wrap(erpController.getConfig))
+app.get('/erp/config/:id', app.wrap(erpController.setConfig))
 
 // start server:
 const server = app.listen(3000, () => {

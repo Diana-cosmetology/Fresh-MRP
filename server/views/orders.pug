@@ -1,0 +1,26 @@
+html
+  head
+    title ERP Orders
+  body
+    h1 Orders
+
+    table
+      tr
+        td Res
+        td Title
+        td Date
+        td ReqQnt
+        td Qnt
+        td Price
+        td Value
+      for order in orders
+        tr
+          //td #{ product.productId }
+          td
+            a(href=`/erp/resources/${order.resource.resourceId}`) #{order.resource.resourceId}
+          td #{ order.resource.title }
+          td #{ order.date.format('DD/MM/YYYY') }
+          td #{ order.reqQnt }
+          td #{ order.qnt }
+          td #{ order.price }
+          td #{ order.value }

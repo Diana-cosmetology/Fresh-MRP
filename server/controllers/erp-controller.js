@@ -39,5 +39,38 @@ export default module.exports = (app) => {
       res.render('manufacturing', { manufacturing })
       return {}
     },
+    getOrders: (req, res) => {
+      const orders = app.data.manufacturing.resources.getOrders()
+
+      res.render('orders', { orders })
+      return {}
+    },
+    getConfig: (req, res) => {
+      const { config } = app.data
+
+      res.render('config', { config })
+      return {}
+    },
+    setConfig: (req, res) => {
+      const configNdx = req.params.id
+
+      if (configNdx < 0 || configNdx >= app.data.config.preset.length) return {}
+
+      // switch config:
+      app.data.res.loadFromFile(`${app.data.config.preset[configNdx].resourcesFile}`)
+      app.data.resource = app.data.res.resources
+      app.data.manufacturing.loadFromFile(`${app.data.config.preset[configNdx].manufacturingFile}`)
+      app.data.manufacturing.resources = app.data.res
+      app.data.manufacturing.process = app.data.process
+      app.data.manufacturing.processManufacturing()
+
+      app.data.config.resourcesFile = app.data.config.preset[configNdx].resourcesFile
+      app.data.config.manufacturingFile = app.data.config.preset[configNdx].manufacturingFile
+
+      const { config } = app.data
+
+      res.render('config', { config })
+      return {}
+    },
   }
 }

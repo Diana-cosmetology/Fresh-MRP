@@ -238,5 +238,24 @@ export class Resources {
   byId(resId) {
     return _.find(this.resources, ['resourceId', resId])
   }
+
+  getOrders() {
+    const anOrder = []
+    this.resources.map((resource) => {
+      if (resource.orders) {
+        resource.orders.map((order) => {
+          anOrder.push({
+            date: order.date,
+            qnt: order.qnt,
+            resource: order.resource,
+            reqQnt: order.reqQnt,
+            price: order.resource.defPrice,
+            value: Math.round(order.qnt * order.resource.defPrice),
+          })
+        })
+      }
+    })
+    return anOrder
+  }
 }
 

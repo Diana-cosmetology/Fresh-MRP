@@ -2,7 +2,7 @@
   "name": "fresh-mrp",
   "description": "MRP2 planning app",
   "author": "Denis Kiselev (http://deksden.com/)",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/Diana-cosmetology/Fresh-MRP.git"
@@ -18,7 +18,7 @@
     "body-parser": "latest",
     "express": "^4.16.3",
     "express-validator": "^5.2.0",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.10",
     "moment": "^2.22.1",
     "moment-business-days": "^1.0.6",
     "pug": "^2.0.3"
@@ -33,10 +33,10 @@
     "chai-subset": "1.x",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "16.x",
-    "eslint-plugin-flowtype": "2.x",
-    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-flowtype": "^2.47.1",
+    "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "6.x",
-    "eslint-plugin-react": "7.x",
-    "mocha": "^5.0.5"
+    "eslint-plugin-react": "^7.8.2",
+    "mocha": "^5.2.0"
   }
 }

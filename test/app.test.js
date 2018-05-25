@@ -20,7 +20,7 @@ describe('MRP test cases', () => {
   const manufacturing = new Manufacturing()
 
   /**
-   * Somple case: initial qnt is 120, in transit was 300, production consumption is 155.
+   * Simple case: initial qnt is 120, in transit was 300, production consumption is 155.
    */
   describe('mfg-1: simple production', () => {
     before(function (done) {

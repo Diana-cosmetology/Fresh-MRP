@@ -1,0 +1,16 @@
+html
+  head
+    title ERP path to files
+  body
+    h1 Path to files
+
+    p #{config.resourcesFile}
+    p #{config.manufacturingFile}
+
+    h2 Config presets
+
+    - let ndx=1
+    for item in config.preset
+      p
+        a(href=`/erp/config/${ndx-1}`) #{ndx}
+      - ndx=ndx+1
