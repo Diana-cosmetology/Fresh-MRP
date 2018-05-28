@@ -74,6 +74,7 @@ app.data.config.preset.push({ resourcesFile: `${appRootDir}/test/data/res-1.json
 
 
 // configure routes:
+app.get('/', (req, res) => res.render('main.pug'))
 app.get('/erp/products', app.wrap(erpController.getProducts))
 app.get('/erp/products/:productId', app.wrap(erpController.getProduct))
 app.get('/erp/resources', app.wrap(erpController.getResources))

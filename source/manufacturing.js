@@ -28,7 +28,7 @@ export class Manufacturing {
     // iterate over manufacturing plan
     this.manufacturing.map((item) => {
       item.process = _.find(this.process, ['processId', item.processId])
-      item.readyDate = moment(item.date, DATE_PATTERN)
+      item.readyDate = moment(item.date, DATE_PATTERN) // TODO: check for invalid date
       item.resourcesUsed = []
 
       // if process is not defined or not found for this plan item
