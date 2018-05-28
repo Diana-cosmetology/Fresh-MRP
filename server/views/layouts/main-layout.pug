@@ -1,0 +1,72 @@
+- var assetsPath = '../assets/'
+
+doctype html
+head
+  title Hello, world!
+
+  // Required meta tags
+  block headMeta
+    include ../partials/head-meta.pug
+
+  // Fonts and icons
+  block headResources
+    include ../partials/head-resources.pug
+
+  // Material Kit CSS
+  block headCSS
+    include ../partials/head-css.pug
+body
+    .wrapper
+      block bodySidebar
+        include ../partials/body-sidebar.pug
+
+      .main-panel
+        block bodyNavpanel
+          include ../partials/body-navpanel.pug
+        block bodyPanel
+          include ../partials/body-panel.pug
+        block bodyContent
+          .content
+            .card
+              .card-header
+                h3 Hello, world!
+        block bodyFooter
+          include ../partials/body-footer.pug
+
+    // Core JS Files
+    block bodyJSCore
+      include ../partials/body-js-core
+
+    block bodyJSPlugins
+        // Plugin for Sweet Alert
+        script(src=`${assetsPath}js/plugins/sweetalert2.min.js`)
+        // Forms Validations Plugin
+        script(src=`${assetsPath}js/plugins/jquery.validate.min.js`)
+        // Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard
+        script(src=`${assetsPath}js/plugins/jquery.bootstrap-wizard.js`)
+        // Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select
+        script(src=`${assetsPath}js/plugins/bootstrap-selectpicker.js` type='text/javascript')
+        // Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/
+        script(src=`${assetsPath}js/plugins/bootstrap-switch.js`)
+        // Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/
+        script(src=`${assetsPath}js/plugins/bootstrap-datetimepicker.js`)
+        // DataTables.net Plugin, full documentation here: https://datatables.net/
+        script(src=`${assetsPath}js/plugins/jquery.dataTables.min.js`)
+        // Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs
+        script(src=`${assetsPath}js/plugins/bootstrap-tagsinput.js`)
+        // Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput
+        script(src=`${assetsPath}js/plugins/jasny-bootstrap.min.js`)
+        // Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar
+        script(src=`${assetsPath}js/plugins/fullcalendar.min.js`)
+        // Vector Map plugin, full documentation here: http://jvectormap.com/documentation/
+        script(src=`${assetsPath}js/plugins/jquery-jvectormap.js`)
+        // Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/
+        script(src=`${assetsPath}js/plugins/nouislider.min.js` type='text/javascript')
+        // Google Maps Plugin
+        // script(type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE')
+        // Chart JS
+        script(src=`${assetsPath}js/plugins/chartjs.min.js`)
+        // Notifications Plugin
+        script(src=`${assetsPath}js/plugins/bootstrap-notify.js`)
+        // Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc
+        script(src=`${assetsPath}js/now-ui-dashboard.js?v=1.1.0` type='text/javascript')
