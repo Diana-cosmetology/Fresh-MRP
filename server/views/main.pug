@@ -10,26 +10,29 @@ block bodyContent
                 h3 MRP by Deksden
 
             .card-body
-                .card(style='width: 20rem;')
-                    .card-body
-                        h4.card-title Products
-                        h6.card-subtitle.mb-2.text-muted Products definition
-                        p.card-text
-                            | Description of products which manufacturing plan will be processed by MRP. products.json
-                        a.card-link(href='/erp/products') Products
+                .container
+                    .row.col-lg-offset-2
+                            .card(style='width: 18rem; height=20rem;')
+                                .card-body
+                                    h4.card-title Products
+                                    h6.card-subtitle.mb-2.text-muted Products definition
+                                    p.card-text
+                                        | Description of products which manufacturing plan will be processed by MRP. products.json
+                                    a.card-link(href='/erp/products') Products
 
-                .card(style='width: 20rem;')
-                    .card-body
-                        h4.card-title Products
-                        h6.card-subtitle.mb-2.text-muted Products definition
-                        p.card-text
-                            | Description of products which manufacturing plan will be processed by MRP. products.json
-                        a.card-link(href='/erp/products') Products
+                            .card(style='width: 18rem;height=20rem;')
+                                .card-body
+                                    h4.card-title Orders
+                                    h6.card-subtitle.mb-2.text-muted Orders for resources
+                                    p.card-text
+                                        | List of orders for resources. Result of MRP
+                                    a.card-link(href='/erp/orders') Orders
 
-                .card(style='width: 20rem;')
-                    .card-body
-                        h4.card-title Products
-                        h6.card-subtitle.mb-2.text-muted Products definition
-                        p.card-text
-                            | Description of products which manufacturing plan will be processed by MRP. products.json
-                        a.card-link(href='/erp/products') Products
+                    .row
+                        .card(style='width: 18rem;')
+                            .card-body
+                                h4.card-title Products
+                                h6.card-subtitle.mb-2.text-muted Products definition
+                                p.card-text
+                                    | Description of products which manufacturing plan will be processed by MRP. products.json
+                                a.card-link(href='/erp/products') Products

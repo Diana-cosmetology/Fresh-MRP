@@ -1,26 +1,30 @@
-html
-  head
-    title ERP Orders
-  body
-    h1 Orders
+extends layouts/main-layout
 
-    table
-      tr
-        td Res
-        td Title
-        td Date
-        td ReqQnt
-        td Qnt
-        td Price
-        td Value
-      for order in orders
-        tr
-          //td #{ product.productId }
-          td
-            a(href=`/erp/resources/${order.resource.resourceId}`) #{order.resource.resourceId}
-          td #{ order.resource.title }
-          td #{ order.date.format('DD/MM/YYYY') }
-          td #{ order.reqQnt }
-          td #{ order.qnt }
-          td #{ order.price }
-          td #{ order.value }
+include mixins/table
+
+block headTitle
+    title MRP by deksden
+
+block bodyContent
+    +erpTable('Orders')
+        thead.text-primary
+            tr.col-md-8
+                th.text-left Res
+                th.text-left Title
+                th.text-center Date
+                th.text-right ReqQnt
+                th.text-right Qnt
+                th.text-right Price
+                th.text-right Value
+        tbody
+            for order in orders
+                tr
+                  //td #{ product.productId }
+                  td
+                    a(href=`/erp/resources/${order.resource.resourceId}`) #{order.resource.resourceId}
+                  td #{ order.resource.title }
+                  td.text-center #{ order.date.format('DD/MM/YYYY') }
+                  td.text-right #{ order.reqQnt }
+                  td.text-right #{ order.qnt }
+                  td.text-right #{ order.price }
+                  td.text-right #{ order.value }

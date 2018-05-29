@@ -1,0 +1,13 @@
+mixin erpTable(header)
+    .content
+        .row
+            .col-md-11
+                .card
+                    .card-header
+                        h3=header
+
+                    .card-body
+                        .table-responsive
+                            table.table
+                                if block
+                                    block
