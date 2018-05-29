@@ -1,20 +1,54 @@
-html
-  head
-    title ERP products
-  body
-    h1 Product: #{product.name}(#{product.productId})
+extends layouts/main-layout
 
-    p #{product.productId}
-    p #{product.name}
-    p #{product.unit}
+block append variables
+    - pageID = 'products' // mark products as active page (no product item in nav)
 
-    h3 StartQnt
+block headTitle
+    title MRP by deksden
 
-    p #{product.startQnt.date} : #{product.startQnt.qnt}
+mixin formField(caption, value)
+    .row
+        .col-md-2
+            p.text-muted.text-right=caption
+        .col-md-10
+            p.text-left=value
 
-    if product.inProduction
-        h3 In transfer:
 
-        - let ndx=1
-        for prod in product.inProduction
-            p #{ndx++} - #{prod.readyDate} : #{prod.qnt} (#{prod.processId})
+block bodyContent
+    .content
+        .row
+            .col-md-12
+                .card
+                    .card-header
+                        h3 Product: #{product.name}(#{product.productId})
+                    .card-body
+                        +formField('ID:', product.productId)
+                        +formField('Name:', product.name)
+                        +formField('Unit:', product.unit)
+
+                        .row
+                            .col-md-12
+                                h3 Starting quantities:
+
+                                +formField( product.startQnt.date + ':', product.startQnt.qnt)
+
+                        if product.inProduction
+                            .row
+                                .col-md-6
+                                    h3 In transfer:
+
+                                    - let ndx=1
+                                    table.table
+                                        thead.text-primary
+                                            tr
+                                                td #
+                                                td Ready date
+                                                td Qnt
+                                                td ProcessID
+                                        tbody
+                                            for prod in product.inProduction
+                                                tr
+                                                    td #{ndx++}
+                                                    td #{prod.readyDate}
+                                                    td #{prod.qnt}
+                                                    td #{prod.processId}
