@@ -1,43 +1,53 @@
-html
-  head
-    title ERP resources
-  body
-    h1 Resources
-    table
-      tr
-        td ID
-        td Name
-        td Unit
-        td MinStock
-        td MinOrder
-        td OrderPeriod
-        td DefPrice
-        td Initial Date
-        td Initial Qnt
-        td Initial Price
+extends layouts/main-layout
 
+block append variables
+  - pageID = 'resources'
+
+include mixins/table
+
+block headTitle
+    title MRP by deksden
+
+block bodyContent
+  +erpTable('Resources', resources)
+    thead.text-primary
+      tr.col-md-10
+        th.text-left ID
+        th.text-left Name
+        th.text-center Unit
+        th.text-right MinStock
+        th.text-right MinOrder
+        th.text-right OrderPeriod
+        th.text-right DefPrice
+        th Initial Date
+        th.text-right Initial Qnt
+        th.text-right Initial Price
+    tbody
       for resource in resources
         tr
           td
             a(href=`/erp/resources/${resource.resourceId}`) #{resource.resourceId}
           td #{ resource.title }
           td #{ resource.unit }
-          td #{ resource.minStock }
-          td #{ resource.minOrder }
-          td #{ resource.orderPeriod }
-          td #{ resource.defPrice }
+          td.text-right #{ resource.minStock }
+          td.text-right #{ resource.minOrder }
+          td.text-right #{ resource.orderPeriod }
+          td.text-right #{ resource.defPrice }
           if resource.initialQnt
             td #{ resource.initialQnt.date }
-            td #{ resource.initialQnt.qnt }
-            td #{ resource.initialQnt.price }
+            td.text-right #{ resource.initialQnt.qnt }
+            td.text-right #{ resource.initialQnt.price }
         if resource.inTransfer
-          table
-            tr
-              td dateArrival
-              td qnt
-              td price
-            for transfer in resource.inTransfer
-              tr
-                td #{ transfer.dateArrival }
-                td #{ transfer.qnt }
-                td #{ transfer.price }
+          .table-responsive.col-md-6.col-md-offset-2
+            table.table.w-50
+                      thead.text-muted
+                        tr
+                          th Arrival date:
+                          th.text-right Qnt
+                          th.text-right Price
+                      tbody
+                        for transfer in resource.inTransfer
+                          tr
+                            td #{ transfer.dateArrival }
+                            td.text-right #{ transfer.qnt }
+                            td.text-right #{ transfer.price }

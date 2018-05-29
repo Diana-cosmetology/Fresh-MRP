@@ -14,28 +14,33 @@ block bodyContent
 
             .card-body
                 .container
-                    .row.col-lg-offset-2
-                            .card(style='width: 18rem; height=20rem;')
-                                .card-body
-                                    h4.card-title Products
-                                    h6.card-subtitle.mb-2.text-muted Products definition
-                                    p.card-text
-                                        | Description of products which manufacturing plan will be processed by MRP. products.json
-                                    a.card-link(href='/erp/products') Products
-
-                            .card(style='width: 18rem;height=20rem;')
-                                .card-body
-                                    h4.card-title Orders
-                                    h6.card-subtitle.mb-2.text-muted Orders for resources
-                                    p.card-text
-                                        | List of orders for resources. Result of MRP
-                                    a.card-link(href='/erp/orders') Orders
-
                     .row
-                        .card(style='width: 18rem;')
-                            .card-body
+                        .card(style='width: 18rem')
+                            .card-header
                                 h4.card-title Products
                                 h6.card-subtitle.mb-2.text-muted Products definition
+                            .card-body
                                 p.card-text
                                     | Description of products which manufacturing plan will be processed by MRP. products.json
+                            .card-footer
                                 a.card-link(href='/erp/products') Products
+
+                        .card(style='width: 18rem')
+                            .card-header
+                                h4.card-title Resources
+                                h6.card-subtitle.mb-2.text-muted Resources for production
+                            .card-body
+                                p.card-text
+                                    | Definition of resources used for production processes
+                            .card-footer
+                                a.card-link(href='/erp/resources') Resources
+            .card-body
+                .card(style='width: 18rem')
+                    .card-header
+                        h4.card-title Orders
+                        h6.card-subtitle.mb-2.text-muted Orders for resources
+                    .card-body
+                        p.card-text
+                            | List of orders for resources. Result of MRP
+                    .card-footer
+                        a.card-link(href='/erp/orders') Orders
