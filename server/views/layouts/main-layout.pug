@@ -2,7 +2,8 @@
 
 doctype html
 head
-  title Hello, world!
+  block headTitle
+    title MRP app by Deksden
 
   // Required meta tags
   block headMeta
@@ -27,9 +28,6 @@ body
           include ../partials/body-panel.pug
         block bodyContent
           .content
-            .card
-              .card-header
-                h3 Hello, world!
         block bodyFooter
           include ../partials/body-footer.pug
 
