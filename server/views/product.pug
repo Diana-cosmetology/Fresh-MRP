@@ -25,17 +25,16 @@ block bodyContent
                         +formField('ID:', product.productId)
                         +formField('Name:', product.name)
                         +formField('Unit:', product.unit)
+                    .card-body
+                        h6.text-muted Starting quantities:
 
-                        .row
-                            .col-md-12
-                                h3 Starting quantities:
-
-                                +formField( product.startQnt.date + ':', product.startQnt.qnt)
+                        +formField('At date:', product.startQnt.date)
+                        +formField('Qnt:', product.startQnt.qnt)
 
                         if product.inProduction
                             .row
                                 .col-md-6
-                                    h3 In transfer:
+                                    h3 In production:
 
                                     - let ndx=1
                                     table.table
