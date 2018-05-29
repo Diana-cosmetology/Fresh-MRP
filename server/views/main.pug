@@ -1,7 +1,10 @@
 extends layouts/main-layout
 
+block append variables
+    - pageID = 'home'
+
 block headTitle
-    title MRP by deksden
+    title MRP by deksden (#{pageID})
 
 block bodyContent
     .content
