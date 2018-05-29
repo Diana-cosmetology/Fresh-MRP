@@ -1,17 +1,22 @@
-html
-  head
-    title ERP products
-  body
-    h1 Products
-    table
-      tr
-        td ID
-        td Name
-        td Unit
+extends layouts/main-layout
+
+include mixins/table
+
+block headTitle
+    title MRP by deksden
+
+block bodyContent
+  +erpTable('Products',products)
+    thead.text-primary
+      tr.col-md-8
+        th.text-left ID
+        th.text-center Name
+        th.text-center Unit
+    tbody
       for product in products
         tr
           //td #{ product.productId }
-          td
+          td.text-left
             a(href=`/erp/products/${product.productId}`) #{product.productId}
-          td #{ product.name }
-          td #{ product.unit }
+          td.text-center #{ product.name }
+          td.text-center #{ product.unit }

@@ -1,13 +1,19 @@
-mixin erpTable(header)
+mixin erpTable(header, aList)
     .content
         .row
             .col-md-11
                 .card
-                    .card-header
-                        h3=header
-
-                    .card-body
-                        .table-responsive
-                            table.table
-                                if block
-                                    block
+                    if aList && aList.length > 0
+                        .card-header
+                            h3=header
+                        .card-body
+                            .table-responsive
+                                table.table
+                                    if block
+                                        block
+                    else
+                        .card-header
+                            h3=header
+                            h6.card-subtitle.text-muted.mb-2 List is empty
+                        .card-body
+                            a.btn.btn-primary.btn-round(href='/') < Main page
