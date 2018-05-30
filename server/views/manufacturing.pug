@@ -1,6 +1,24 @@
-html
-  head
-    title Manufacturing plan
-  body
-    h1 Manufacturing plan
+extends layouts/main-layout
 
+block append variables
+  - pageID = 'manufacturing'
+
+include mixins/table
+
+block headTitle
+    title MRP by deksden (#{pageID})
+
+block bodyContent
+  +erpTable('Manufacturing plan', manufacturing)
+    thead.text-primary
+      tr.col-md-8
+        th.text-left Ready date
+        th.text-left Process
+        th.text-right Qnt
+    tbody
+      for mfg in manufacturing
+        tr
+          td.text-left #{ mfg.date }
+          td.text-left
+            a(href=`/erp/process/${mfg.processId}`) #{mfg.processId}
+          td.text-right #{ mfg.qnt }

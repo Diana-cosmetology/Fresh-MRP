@@ -46,6 +46,10 @@ mixin navItem(itemID)
                 a(href='/')
                     i.now-ui-icons.design_app
                     p MRP home page
+            +navItem('manufacturing')
+                a(href='/erp/manufacturing')
+                    i.now-ui-icons.files_paper
+                    p.sidebar-normal Manufacturing
             +navItem('products')
                 a(href='/erp/products')
                     i.now-ui-icons.files_paper

@@ -34,7 +34,7 @@ export default module.exports = (app) => {
       return {}
     },
     getManufacturing: (req, res) => {
-      const { manufacturing } = app.data
+      const { manufacturing } = app.data.manufacturing
 
       res.render('manufacturing', { manufacturing })
       return {}
