@@ -84,6 +84,8 @@ app.get('/erp/manufacturing', app.wrap(erpController.getManufacturing))
 app.get('/erp/orders', app.wrap(erpController.getOrders))
 app.get('/erp/config', app.wrap(erpController.getConfig))
 app.get('/erp/config/:id', app.wrap(erpController.setConfig))
+app.get('/erp/processes', app.wrap(erpController.getProcesses))
+app.get('/erp/processes/:processId', app.wrap(erpController.getProcess))
 
 // start server:
 const server = app.listen(3000, () => {

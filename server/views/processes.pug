@@ -1,0 +1,31 @@
+extends layouts/main-layout
+
+block append variables
+  - pageID = 'processes'
+
+include mixins/table
+
+block headTitle
+    title MRP by deksden
+
+block bodyContent
+  +erpTable('Processes', processes)
+    thead.text-primary
+      tr.col-md-10
+        th.text-left ID
+        th.text-left Name
+        th.text-left Product
+        th.text-right qntMin
+        th.text-right qntStep
+        th.text-right resourceBase
+    tbody
+      for process in processes
+        tr
+          td
+            a(href=`/erp/processes/${process.processId}`) #{process.processId}
+          td #{ process.name }
+          td
+            a(href=`/erp/products/${process.productId}`) #{process.productId}
+          td.text-right #{ process.qntMin }
+          td.text-right #{ process.qntStep }
+          td.text-right #{ process.resourceBase }

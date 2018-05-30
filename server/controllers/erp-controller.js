@@ -27,12 +27,6 @@ export default module.exports = (app) => {
       res.render('resource', { resourceId, resource: app.data.res.byId(resourceId) })
       return {}
     },
-    getProcess: (req, res) => {
-      const { process } = app.data
-
-      res.render('process', { process })
-      return {}
-    },
     getManufacturing: (req, res) => {
       const { manufacturing } = app.data.manufacturing
 
@@ -43,6 +37,18 @@ export default module.exports = (app) => {
       const orders = app.data.manufacturing.resources.getOrders()
 
       res.render('orders', { orders })
+      return {}
+    },
+    getProcesses: (req, res) => {
+      const processes = app.data.process
+
+      res.render('processes', { processes })
+      return {}
+    },
+    getProcess: (req, res) => {
+      const process = _.find(app.data.process, { processId: req.params.processId } )
+
+      res.render('process', { process })
       return {}
     },
     getConfig: (req, res) => {
