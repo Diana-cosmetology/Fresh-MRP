@@ -1,30 +1,54 @@
-html
-  head
-    title Resource
-  body
-    h1 Resource
+extends layouts/main-layout
+include mixins/form-field
 
-    p id: #{resource.productId}
-    p title: #{resource.title}
-    p unit: #{resource.unit}
-    p min stock: #{ resource.minStock }
-    p min order: #{ resource.minOrder }
-    p order period: #{ resource.orderPeriod }
-    p def price: #{ resource.defPrice }
-    if resource.initialQnt
-      h3 initial qnt:
-      p date: #{ resource.initialQnt.date }
-      p qnt: #{ resource.initialQnt.qnt }
-      p price: #{ resource.initialQnt.price }
-    if resource.inTransfer
-        h3 In Transfer:
-        table
-            tr
-                td dateArrival
-                td qnt
-                td price
-            for transfer in resource.inTransfer
-                tr
-                    td #{ transfer.dateArrival }
-                    td #{ transfer.qnt }
-                    td #{ transfer.price }
+block append variables
+    - pageID = 'resources' // mark products as active page (no product item in nav)
+
+block headTitle
+    title MRP by deksden
+
+
+block bodyContent
+    .content
+        .row
+            .col-md-12
+                .card
+                    .card-header
+                        h3 Resource
+                    .card-body
+                        +formField('ID:', resource.resourceId)
+                        +formField('Title:', resource.title)
+                        +formField('Unit:', resource.unit)
+                        +formField('Min stock:',resource.minStock)
+                        +formField('Min ordered qnt:',resource.minOrder)
+                        +formField('Order period, days:',resource.orderPeriod)
+                        +formField('Def price',resource.defPrice)
+                    if resource.initialQnt
+                        .card-body
+                            h6.text-muted Starting quantities:
+
+                            +formField('At date:', resource.initialQnt.date)
+                            +formField('Qnt:', resource.initialQnt.qnt)
+                            +formField('Price:', resource.initialQnt.price)
+
+                    if resource.inTransfer
+                        .card-body
+                            .row
+                                .col-md-6
+                                    h3 In transfer:
+
+                                    - let ndx=1
+                                    table.table
+                                        thead.text-primary
+                                            tr
+                                                td #
+                                                td Arrival date
+                                                td Qnt
+                                                td Price
+                                        tbody
+                                            for transfer in resource.inTransfer
+                                                tr
+                                                    td #{ndx++}
+                                                    td #{transfer.dateArrival}
+                                                    td #{transfer.qnt}
+                                                    td #{transfer.price}

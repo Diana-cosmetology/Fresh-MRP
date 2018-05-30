@@ -1,17 +1,11 @@
 extends layouts/main-layout
+include mixins/form-field
 
 block append variables
     - pageID = 'products' // mark products as active page (no product item in nav)
 
 block headTitle
     title MRP by deksden
-
-mixin formField(caption, value)
-    .row
-        .col-md-2
-            p.text-muted.text-right=caption
-        .col-md-10
-            p.text-left=value
 
 
 block bodyContent
