@@ -48,6 +48,7 @@ export default module.exports = (app) => {
     getProcess: (req, res) => {
       const process = _.find(app.data.process, { processId: req.params.processId } )
 
+      console.log(process)
       res.render('process', { process })
       return {}
     },

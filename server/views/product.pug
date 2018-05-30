@@ -14,11 +14,11 @@ block bodyContent
             .col-md-12
                 .card
                     .card-header
-                        h3 Product: #{product.name}(#{product.productId})
+                        h3 Product:
                     .card-body
                         +formField('ID:', product.productId)
                         +formField('Name:', product.name)
-                        +formField('Unit:', product.unit)
+                        +formField('Product:', product.unit)
                     .card-body
                         h6.text-muted Starting quantities:
 

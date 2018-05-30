@@ -1,5 +1,52 @@
-html
-  head
-    title ERP Process
-  body
-    h1 Process
+extends layouts/main-layout
+include mixins/form-field
+
+block append variables
+    - pageID = 'processes'
+
+block headTitle
+    title MRP by deksden
+
+
+block bodyContent
+    .content
+        .row
+            .col-md-12
+                .card
+                    .card-header
+                        h3 Process:
+                    .card-body
+                        +formField('ID:', process.processId)
+                        +formField('Name:', process.name)
+                        +formField('Unit:', '')
+                          a(href='/erp/products/'+process.productId)=process.productId
+                        +formField('Qnt min:', process.qntMin)
+                        +formField('Qnt step:', process.qntStep)
+                        +formField('Resource base:', process.resourceBase)
+                    if process.stages
+                      .card-body
+                        h6.text-muted Process stages:
+
+                        table.table
+                            thead.text-primary
+                                tr
+                                    th #
+                                    th Title
+                                    th Duration
+                            tbody
+                                for stage in process.stages
+                                    tr
+                                        td #{stage.stepNo}
+                                        td #{stage.title}
+                                        td #{stage.duration}
+                                    if stage.resources
+                                      table.table.w-50
+                                        thead
+                                          th Resource
+                                          th Qnt
+                                        tbody
+                                          for resource in stage.resources
+                                            tr
+                                              td
+                                                a(href='/erp/resources/'+resource.resourceId)=resource.resourceId
+                                              td #{resource.qnt}
