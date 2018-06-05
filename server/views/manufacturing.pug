@@ -22,6 +22,6 @@ block bodyContent
         tr
           td.text-left #{ mfg.date }
           td.text-left
-            a(href=`/erp/process/${mfg.processId}`) #{mfg.processId}
+            a(href=`/erp/processes/${mfg.processId}`) #{mfg.processId}
           td.text-right #{ mfg.qnt }
           +formActions()
