@@ -1,0 +1,10 @@
+mixin formActions()
+    td.td-actions.text-center
+        button.btn.btn-success.btn-simple.btn-icon.btn-sm(type='button' rel='tooltip' data-toggle='tooltip' data-placement='top' title='Edit')
+            i.now-ui-icons.ui-2_settings-90
+        span=' '
+        button.btn.btn-danger.btn-simple.btn-icon.btn-sm(type='button' rel='tooltip' data-toggle='tooltip' data-placement='top' title='Remove')
+            i.now-ui-icons.ui-1_simple-remove
+
+    if block
+        block

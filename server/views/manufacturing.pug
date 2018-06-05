@@ -4,6 +4,7 @@ block append variables
   - pageID = 'manufacturing'
 
 include mixins/table
+include mixins/form-actions
 
 block headTitle
     title MRP by deksden (#{pageID})
@@ -15,6 +16,7 @@ block bodyContent
         th.text-left Ready date
         th.text-left Process
         th.text-right Qnt
+        th.text-center Actions
     tbody
       for mfg in manufacturing
         tr
@@ -22,3 +24,4 @@ block bodyContent
           td.text-left
             a(href=`/erp/process/${mfg.processId}`) #{mfg.processId}
           td.text-right #{ mfg.qnt }
+          +formActions()
