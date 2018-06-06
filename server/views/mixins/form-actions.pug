@@ -1,6 +1,6 @@
-mixin formActions()
+mixin formActions(editUrl)
     td.td-actions.text-center
-        button.btn.btn-success.btn-simple.btn-icon.btn-sm(type='button' rel='tooltip' data-toggle='tooltip' data-placement='top' title='Edit')
+        button.btn.btn-success.btn-simple.btn-icon.btn-sm#btn-edit(data-url=editUrl type='button' rel='tooltip' data-placement='top' title='Edit' data-toggle='modal' data-target='#editModal')
             i.now-ui-icons.ui-2_settings-90
         span=' '
         button.btn.btn-danger.btn-simple.btn-icon.btn-sm(type='button' rel='tooltip' data-toggle='tooltip' data-placement='top' title='Remove')

@@ -24,4 +24,50 @@ block bodyContent
           td.text-left
             a(href=`/erp/processes/${mfg.processId}`) #{mfg.processId}
           td.text-right #{ mfg.qnt }
-          +formActions()
+          +formActions(`/erp/manufacturing/1.json`)
+  // Modal
+  #editModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          h5#exampleModalLabel.modal-title Modal title
+          button.close(type='button' data-dismiss='modal' aria-label='Close')
+            span(aria-hidden='true') &times;
+        .modal-body
+          | ...
+        .modal-footer
+          button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+          button.btn.btn-primary(type='button') Save changes
+
+block bodyJS
+  script.
+    $('#btn-edit').click(function() {
+      var url = $(this).data("url");
+      $.ajax({
+      url: url,
+        dataType: 'json',
+        success: function(res) {
+
+          // get the ajax response data
+          var data = res
+
+          // update modal content here
+          // you may want to format data or
+          // update other modal elements here too
+          var formBody = $('.modal-body')
+
+          console.log(data)
+          console.log(res)
+
+          // show modal
+          //$('#myModal').modal('show');
+
+        },
+        error: function(request, status, error) {
+          console.log("ajax call went wrong:" + request.responseText);
+          console.log(status)
+          console.log(error)
+        }
+      })
+    })
+

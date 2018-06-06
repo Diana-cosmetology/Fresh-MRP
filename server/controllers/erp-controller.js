@@ -33,6 +33,16 @@ export default module.exports = (app) => {
       res.render('manufacturing', { manufacturing })
       return {}
     },
+    getManufacturingItem: (req,res) => {
+      const { manufacturing } = app.data.manufacturing
+
+      if(req.params && req.params.format && req.params.format==='.json' && req.params.id) {
+        res.json(manufacturing[req.params.id-1])
+      } else {
+        res.render('manufacturing', {manufacturing})
+      }
+      return {}
+    },
     getOrders: (req, res) => {
       const orders = app.data.manufacturing.resources.getOrders()
 
