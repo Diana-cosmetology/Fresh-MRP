@@ -30,44 +30,81 @@ block bodyContent
     .modal-dialog(role='document')
       .modal-content
         .modal-header
-          h5#exampleModalLabel.modal-title Modal title
+          h5#exampleModalLabel.modal-title Edit record:
           button.close(type='button' data-dismiss='modal' aria-label='Close')
             span(aria-hidden='true') &times;
         .modal-body
-          | ...
+            i.now-ui-icons.loader_gear.spin
+            span='  Loading ...'
         .modal-footer
-          button.btn.btn-secondary(type='button' data-dismiss='modal') Close
           button.btn.btn-primary(type='button') Save changes
+          button.btn.btn-secondary(type='button' data-dismiss='modal') Close
 
 block bodyJS
   script.
+    const initDatetimePickerPlugin = function () {
+      $('.datetimepicker').datetimepicker({
+        //locale: 'ru',
+        //widgetParent: ".form",
+        format: 'L',
+        icons: {
+          time: "fa fa-clock-o",
+          date: "fa fa-calendar",
+          up: "fa fa-chevron-up",
+          down: "fa fa-chevron-down",
+          previous: 'fa fa-chevron-left',
+          next: 'fa fa-chevron-right',
+          today: 'fa fa-screenshot',
+          clear: 'fa fa-trash',
+          close: 'fa fa-remove'
+        }
+      })
+    }
+
     $('#btn-edit').click(function() {
       var url = $(this).data("url");
       $.ajax({
       url: url,
         dataType: 'json',
-        success: function(res) {
-
-          // get the ajax response data
-          var data = res
-
+        success: function(data) {
           // update modal content here
           // you may want to format data or
           // update other modal elements here too
           var formBody = $('.modal-body')
-
-          console.log(data)
-          console.log(res)
-
+          formBody.html(
+            //'<div class="card">'+
+            //'<div class="card-body">' +
+            '<form><row><col>'+
+            //'<div class=""form-row">'+
+            '<div class=""form-group">'+
+            '<label for="date">Date:</label>'+
+            '<input id="date" placeholder="date" type="text" class="form-control datetimepicker" value="'+
+              data.date+'"</input>'+
+            '</div>'+//form-group
+            '<p>'+data.qnt.toString()+'</p>'+
+            '<p>'+data.process.name.toString()+'</p>'+
+            '</col></row></form>'
+            //'</div></div>'
+          )
           // show modal
           //$('#myModal').modal('show');
+          initDatetimePickerPlugin()
+          var dateInput = $(".datetimepicker");
+          // Parent here will be the <td>
+          dateInput.parent().css("position", "relative");
+          dateInput.datetimepicker();
 
         },
         error: function(request, status, error) {
-          console.log("ajax call went wrong:" + request.responseText);
-          console.log(status)
-          console.log(error)
+
+          $('.modal-body').html(
+            '<h3>Error loading form data from server</h3>'+
+            '<p> Request: '+request.toString()+'</p>'+
+            '<p> Status: '+status.toString()+'</p>'+
+            '<p> Error: '+error.toString()+'</p>'
+          )
         }
       })
     })
+
 
