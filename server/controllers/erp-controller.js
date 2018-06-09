@@ -37,9 +37,33 @@ export default module.exports = (app) => {
       const { manufacturing } = app.data.manufacturing
 
       if(req.params && req.params.format && req.params.format==='.json' && req.params.id) {
-        res.json(manufacturing[req.params.id-1])
+        res.json(_.assign({ date: '', qnt:0, processId: ''}, manufacturing[req.params.id-1]))
       } else {
         res.render('manufacturing', {manufacturing})
+      }
+      return {}
+    },
+    saveManufacturingItem: (req, res) => {
+      const { manufacturing } = app.data.manufacturing
+
+      if(req.params && req.params.id && req.body) {
+        _.assign(manufacturing[req.params.id-1], req.body)
+        res.json(manufacturing[req.params.id-1])
+      } else {
+        res.text('Invalid request params: id / format')
+      }
+      return {}
+    },
+    newManufacturingItem: (req, res) => {
+      const { manufacturing } = app.data.manufacturing
+
+      if(req.body) {
+        // sanitize body
+        manufacturing.push( _.assign({ date: '', qnt:0, processId: ''}, req.body))
+        // returns new item with id
+        res.json({ item: manufacturing[manufacturing.length-1], itemNo: manufacturing.length-1} )
+      } else {
+        res.text('Invalid request params: body')
       }
       return {}
     },

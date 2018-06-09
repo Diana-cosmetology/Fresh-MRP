@@ -26,19 +26,20 @@ block bodyContent
           td.text-right #{ mfg.qnt }
           +formActions(`/erp/manufacturing/1.json`)
   // Modal
-  #editModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+  #editModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='EditModal' aria-hidden='true')
     .modal-dialog(role='document')
       .modal-content
-        .modal-header
-          h5#exampleModalLabel.modal-title Edit record:
-          button.close(type='button' data-dismiss='modal' aria-label='Close')
-            span(aria-hidden='true') &times;
-        .modal-body
-            i.now-ui-icons.loader_gear.spin
-            span='  Loading ...'
-        .modal-footer
-          button.btn.btn-primary(type='button') Save changes
-          button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+        form#editForm
+            .modal-header
+              h5#exampleModalLabel.modal-title Edit record:
+              button.close(type='button' data-dismiss='modal' aria-label='Close')
+                span(aria-hidden='true') &times;
+            .modal-body
+                i.now-ui-icons.loader_gear.spin
+                span='  Loading ...'
+            .modal-footer
+              button.btn.btn-primary#btnSave(type='button') Save changes
+              button.btn.btn-secondary(type='button' data-dismiss='modal') Close
 
 block bodyJS
   script.
@@ -64,34 +65,39 @@ block bodyJS
     }
 
     $('#btn-edit').click(function() {
-      var url = $(this).data("url");
+      var url = $(this).data("url")
       $.ajax({
-      url: url,
+        url: url,
         dataType: 'json',
         success: function(data) {
-          // update modal content here
-          // you may want to format data or
-          // update other modal elements here too
+          // set URL for save buttton:
+          $('#btnSave').data('url', url)
+
           var formBody = $('.modal-body')
           formBody.html(
-            //'<div class="card">'+
-            //'<div class="card-body">' +
-            '<form><row><col>'+
-            //'<div class=""form-row">'+
+            '<row><col>'+
+
             '<div class=""form-group">'+
             '<label for="date">Date:</label>'+
-            '<input id="date" placeholder="date" type="text" class="form-control datetimepicker" value="'+
+            '<input id="date" name="date" placeholder="date" type="text" class="form-control datetimepicker" value="'+
               data.date+'"</input>'+
             '</div>'+//form-group
-            '<p>'+data.qnt.toString()+'</p>'+
-            '<p>'+data.process.name.toString()+'</p>'+
-            '</col></row></form>'
-            //'</div></div>'
-          )
-          // show modal
-          //$('#myModal').modal('show');
-          initDatetimePickerPlugin()
 
+            '<div class=""form-group">' +
+            '<label for="date">Qnt:</label>' +
+            '<input id="qnt" name="qnt" placeholder="Qnt" type="number" class="form-control" value="' +
+            data.qnt + '"</input>' +
+            '</div>' +//form-group
+
+            '<div class=""form-group">' +
+            '<label for="date">Process ID:</label>' +
+            '<input id="processId" name="processId" placeholder="processId" type="text" class="form-control" value="' +
+            data.processId + '"</input>' +
+            '</div>' +//form-group
+
+            '</col></row>'
+          )
+          initDatetimePickerPlugin()
         },
         error: function(request, status, error) {
 
@@ -101,6 +107,27 @@ block bodyJS
             '<p> Status: '+status.toString()+'</p>'+
             '<p> Error: '+error.toString()+'</p>'
           )
+        }
+      })
+    })
+
+    $('#btnSave').click(function() {
+      var url=$(this).data("url")
+      $(this).addClass('disabled').text('Saving changes ...')
+      $.ajax({
+        url: url,
+        contentType: 'application/json',
+        dataType: 'json',
+        type: 'POST',
+        data: JSON.stringify($("#editForm").serializeJSON()),
+        success: function(data) {
+          console.log('saved!')
+          $(this).removeClass('disabled').text('Save changes')
+          $('#editModal').modal('hide')
+          location.reload()
+        },
+        error: function() {
+          $(this).removeClass('disabled').text('Changes not saved!')
         }
       })
     })
