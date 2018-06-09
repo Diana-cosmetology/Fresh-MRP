@@ -9,6 +9,8 @@ import fs from 'fs'
 
 const DATE_PATTERN = 'DD-MM-YYYY'
 
+moment.locale('ru')
+
 export class Manufacturing {
   constructor() {
     this.manufacturing = []

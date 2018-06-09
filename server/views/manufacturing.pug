@@ -43,9 +43,11 @@ block bodyContent
 block bodyJS
   script.
     const initDatetimePickerPlugin = function () {
-      $('.datetimepicker').datetimepicker({
-        //locale: 'ru',
-        //widgetParent: ".form",
+      var dateInput = $(".datetimepicker");
+
+      dateInput.parent().css("position", "relative");
+      dateInput.datetimepicker({
+        locale: 'ru',
         format: 'L',
         icons: {
           time: "fa fa-clock-o",
@@ -89,10 +91,6 @@ block bodyJS
           // show modal
           //$('#myModal').modal('show');
           initDatetimePickerPlugin()
-          var dateInput = $(".datetimepicker");
-          // Parent here will be the <td>
-          dateInput.parent().css("position", "relative");
-          dateInput.datetimepicker();
 
         },
         error: function(request, status, error) {
