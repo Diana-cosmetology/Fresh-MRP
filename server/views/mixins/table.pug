@@ -6,6 +6,9 @@ mixin erpTable(header, aList)
                     if aList && aList.length > 0
                         .card-header
                             h3=header
+                            button.btn.btn-primary.btn-round#btn-new(data-url="/erp/manufacturing/" data-toggle='modal' data-target='#editModal')
+                                i.now-ui-icons.ui-1_simple-add
+                                span  New
                         .card-body
                             .table-responsive
                                 table.table

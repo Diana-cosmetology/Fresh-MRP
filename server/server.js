@@ -1,15 +1,12 @@
 /* eslint-disable no-console */
 /**
-
- Simple server for ERP project: static content + some JSON visualization
-
- */
+  Simple server for ERP project: static content + some JSON visualization
+*/
 
 // import packages
 import path from 'path'
 import express from 'express'
 import bodyParser from 'body-parser'
-const appRootDir = require('app-root-dir').get()
 
 // import project modules
 import ErpController from './controllers/erp-controller'
@@ -19,6 +16,9 @@ import process from '../data/process.json'
 
 import { Resources } from '../source/resource'
 import { Manufacturing } from '../source/manufacturing'
+
+const appRootDir = require('app-root-dir').get()
+
 
 const resources = new Resources()
 const manufacturing = new Manufacturing()
@@ -69,8 +69,15 @@ app.data.config = {}
 app.data.config.preset = []
 app.data.config.resourcesFile = `${appRootDir}/data/resources.json`
 app.data.config.manufacturingFile = `${appRootDir}/data/manufacturing.json`
-app.data.config.preset.push({ resourcesFile: app.data.config.resourcesFile, manufacturingFile: app.data.config.manufacturingFile}) // preset 0
-app.data.config.preset.push({ resourcesFile: `${appRootDir}/test/data/res-1.json`, manufacturingFile: `${appRootDir}/test/data/mfg-2.json`}) // preset 1
+app.data.config.preset.push({
+  resourcesFile: app.data.config.resourcesFile,
+  manufacturingFile: app.data.config.manufacturingFile,
+}) // preset 0
+
+app.data.config.preset.push({
+  resourcesFile: `${appRootDir}/test/data/res-1.json`,
+  manufacturingFile: `${appRootDir}/test/data/mfg-2.json`,
+}) // preset 1
 
 
 // configure routes:
@@ -96,4 +103,3 @@ const server = app.listen(3000, () => {
   const { port } = server.address()
   console.log(`listening on http://${host}:${port}/`)
 })
-

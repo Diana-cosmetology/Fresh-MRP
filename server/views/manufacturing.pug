@@ -18,13 +18,14 @@ block bodyContent
         th.text-right Qnt
         th.text-center Actions
     tbody
+      - let ndx=1
       for mfg in manufacturing
         tr
           td.text-left #{ mfg.date }
           td.text-left
             a(href=`/erp/processes/${mfg.processId}`) #{mfg.processId}
           td.text-right #{ mfg.qnt }
-          +formActions(`/erp/manufacturing/1.json`)
+          +formActions(`/erp/manufacturing/${ndx++}.json`)
   // Modal
   #editModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='EditModal' aria-hidden='true')
     .modal-dialog(role='document')
@@ -38,7 +39,7 @@ block bodyContent
                 i.now-ui-icons.loader_gear.spin
                 span='  Loading ...'
             .modal-footer
-              button.btn.btn-primary#btnSave(type='button') Save changes
+              button.btn.btn-primary#btn-save(type='button') Save changes
               button.btn.btn-secondary(type='button' data-dismiss='modal') Close
 
 block bodyJS
@@ -64,54 +65,66 @@ block bodyJS
       })
     }
 
-    $('#btn-edit').click(function() {
+    const initModal = function (container, aDate, aQnt, aProcess) {
+      container.html(
+        '<row><col>' +
+
+        '<div class=""form-group">' +
+        '<label for="date">Date:</label>' +
+        '<input id="date" name="date" placeholder="date" type="text" class="form-control datetimepicker" value="' +
+        aDate + '"</input>' +
+        '</div>' +//form-group
+
+        '<div class=""form-group">' +
+        '<label for="date">Qnt:</label>' +
+        '<input id="qnt" name="qnt" placeholder="Qnt" type="number" class="form-control" value="' +
+        aQnt + '"</input>' +
+        '</div>' +//form-group
+
+        '<div class=""form-group">' +
+        '<label for="date">Process ID:</label>' +
+        '<input id="processId" name="processId" placeholder="processId" type="text" class="form-control" value="' +
+        aProcess + '"</input>' +
+        '</div>' +//form-group
+
+        '</col></row>'
+      )
+
+    }
+
+    $('#btn-new').click(function() {
+      $('#btn-save').data('url', $(this).data("url")) // url for saving form (new record)
+
+      initModal($('.modal-body'), '', 0, '') // initial values
+      initDatetimePickerPlugin()
+    })
+
+    $('#btn-edit').click(function () {
       var url = $(this).data("url")
       $.ajax({
         url: url,
         dataType: 'json',
-        success: function(data) {
-          // set URL for save buttton:
-          $('#btnSave').data('url', url)
+        success: function (data) {
+          // set URL for save buttton (editing exact record):
+          $('#btn-save').data('url', url)
 
-          var formBody = $('.modal-body')
-          formBody.html(
-            '<row><col>'+
-
-            '<div class=""form-group">'+
-            '<label for="date">Date:</label>'+
-            '<input id="date" name="date" placeholder="date" type="text" class="form-control datetimepicker" value="'+
-              data.date+'"</input>'+
-            '</div>'+//form-group
-
-            '<div class=""form-group">' +
-            '<label for="date">Qnt:</label>' +
-            '<input id="qnt" name="qnt" placeholder="Qnt" type="number" class="form-control" value="' +
-            data.qnt + '"</input>' +
-            '</div>' +//form-group
-
-            '<div class=""form-group">' +
-            '<label for="date">Process ID:</label>' +
-            '<input id="processId" name="processId" placeholder="processId" type="text" class="form-control" value="' +
-            data.processId + '"</input>' +
-            '</div>' +//form-group
-
-            '</col></row>'
-          )
+          initModal($('.modal-body'), data.date, data.qnt, data.processId)
           initDatetimePickerPlugin()
         },
-        error: function(request, status, error) {
-
+        error: function (request, status, error) {
           $('.modal-body').html(
-            '<h3>Error loading form data from server</h3>'+
-            '<p> Request: '+request.toString()+'</p>'+
-            '<p> Status: '+status.toString()+'</p>'+
-            '<p> Error: '+error.toString()+'</p>'
+            '<h3>Error loading form data from server</h3>' +
+            '<p> Request: ' + request.toString() + '</p>' +
+            '<p> Status: ' + status.toString() + '</p>' +
+            '<p> Error: ' + error.toString() + '</p>'
           )
         }
       })
     })
 
-    $('#btnSave').click(function() {
+
+
+    $('#btn-save').click(function() {
       var url=$(this).data("url")
       $(this).addClass('disabled').text('Saving changes ...')
       $.ajax({
