@@ -147,26 +147,27 @@
     .bootstrap-select &:not(.inner),
     &.bootstrap-datetimepicker-widget.top,
     &.bootstrap-datetimepicker-widget.bottom{
-        @include transform-translate-y-dropdown(-20px);
-        visibility: hidden;
-        display: block;
-        @include opacity(0);
-        top: 100% !important;
+      visibility: hidden;
+      display: block;
+      @include opacity(0);
+      top: 100% !important;
     }
 
-    &.bootstrap-datetimepicker-widget.top,
+    .dropdown &,
+    .bootstrap-select &:not(.inner),
     &.bootstrap-datetimepicker-widget.bottom{
-        @include transform-translate-y-dropdown(-20px);
+      @include transform-translate-y-dropdown(-20px);
     }
 
     .bootstrap-select.dropup &:not(.inner){
-        @include transform-translate-y-dropdown(25px);
+      @include transform-translate-y-dropdown(25px);
     }
 
-    .dropup:not(.bootstrap-select) &{
-        @include transform-translate-y-dropdown(20px);
-        top: auto !important;
-        bottom: 100%;
+    .dropup:not(.bootstrap-select) &,
+    &.bootstrap-datetimepicker-widget.top{
+      @include transform-translate-y-dropdown(20px);
+      top: auto !important;
+      bottom: 100%;
     }
 
     .dropdown.show &,
@@ -177,16 +178,18 @@
     .navbar .dropdown.show &{
         @include opacity(1);
         visibility: visible;
-        @include transform-translate-y-dropdown(1px);
     }
 
-    &.bootstrap-datetimepicker-widget.top.open,
-    &.bootstrap-datetimepicker-widget.bottom.open{
-        @include transform-translate-y-dropdown(0px);
+    .dropdown.show &,
+    .bootstrap-select.show &:not(.inner),
+    &.bootstrap-datetimepicker-widget.bottom.open,
+    .navbar .dropdown.show &{
+      @include transform-translate-y-dropdown(1px);
     }
 
-    .dropup.show:not(.bootstrap-select) &{
-        @include transform-translate-y-dropdown(-2px);
+    .dropup.show:not(.bootstrap-select) &,
+    &.bootstrap-datetimepicker-widget.top.open{
+      @include transform-translate-y-dropdown(-2px);
     }
 }
 
