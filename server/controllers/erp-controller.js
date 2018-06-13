@@ -33,22 +33,22 @@ export default module.exports = (app) => {
       res.render('manufacturing', { manufacturing })
       return {}
     },
-    getManufacturingItem: (req,res) => {
+    getManufacturingItem: (req, res) => {
       const { manufacturing } = app.data.manufacturing
 
-      if(req.params && req.params.format && req.params.format==='.json' && req.params.id) {
-        res.json(_.assign({ date: '', qnt:0, processId: ''}, manufacturing[req.params.id-1]))
+      if (req.params && req.params.format && req.params.format === '.json' && req.params.id) {
+        res.json(_.assign({ date: '', qnt: 0, processId: '' }, manufacturing[req.params.id - 1]))
       } else {
-        res.render('manufacturing', {manufacturing})
+        res.render('manufacturing', { manufacturing })
       }
       return {}
     },
     saveManufacturingItem: (req, res) => {
       const { manufacturing } = app.data.manufacturing
 
-      if(req.params && req.params.id && req.body) {
-        _.assign(manufacturing[req.params.id-1], req.body)
-        res.json(manufacturing[req.params.id-1])
+      if (req.params && req.params.id && req.body) {
+        _.assign(manufacturing[req.params.id - 1], req.body)
+        res.json(manufacturing[req.params.id - 1])
       } else {
         res.text('Invalid request params: id / format')
       }
@@ -57,13 +57,27 @@ export default module.exports = (app) => {
     newManufacturingItem: (req, res) => {
       const { manufacturing } = app.data.manufacturing
 
-      if(req.body) {
+      if (req.body) {
         // sanitize body
-        manufacturing.push( _.assign({ date: '', qnt:0, processId: ''}, req.body))
+        manufacturing.push(_.assign({ date: '', qnt: 0, processId: '' }, req.body))
         // returns new item with id
-        res.json({ item: manufacturing[manufacturing.length-1], itemNo: manufacturing.length-1} )
+        res.json({
+          item: manufacturing[manufacturing.length - 1],
+          itemNo: manufacturing.length - 1,
+        })
       } else {
         res.text('Invalid request params: body')
+      }
+      return {}
+    },
+    removeManufacturingItem: (req, res) => {
+      const { manufacturing } = app.data.manufacturing
+
+      if (req.params && req.params.id && req.body) {
+        manufacturing.splice(req.params.id - 1, 1)
+        res.sendStatus(200)
+      } else {
+        res.text('Invalid request params: id / format')
       }
       return {}
     },
@@ -82,7 +96,6 @@ export default module.exports = (app) => {
     getProcess: (req, res) => {
       const process = _.find(app.data.process, { processId: req.params.processId } )
 
-      console.log(process)
       res.render('process', { process })
       return {}
     },
